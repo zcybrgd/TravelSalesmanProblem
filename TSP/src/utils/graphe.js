@@ -1,6 +1,5 @@
 import { Arete } from "./arete.js";
 import { Sommet } from "./sommet.js";
-
 export class Graphe {
     constructor() {
         this.noeuds = new Map();
@@ -22,11 +21,11 @@ export class Graphe {
         });
     }
 
-    ajouterArete(id, nodeEx1id, nodeEx2id,poids) {
+    ajouterArete(id, nodeEx1id, nodeEx2id, poids) {
         if (this.noeuds.has(nodeEx1id) && this.noeuds.has(nodeEx2id)) {
-            const nouvelleArete = new Arete(id, nodeEx1id, nodeEx2id,poids);
+            const nouvelleArete = new Arete(id, nodeEx1id, nodeEx2id, poids);
             this.aretes.add(nouvelleArete);
-            return nouvelleArete; 
+            return nouvelleArete;
         }
         throw new Error('One or both nodes do not exist.')
     }
@@ -70,7 +69,7 @@ export class Graphe {
             copieGraphe.ajouterNoeud(id, n.label)
         });
         this.aretes.forEach((e) => {
-            copieGraphe.ajouterArete(e.id, e.nodeEx1, e.nodeEx2,e.poids);
+            copieGraphe.ajouterArete(e.id, e.nodeEx1, e.nodeEx2, e.poids);
         });
         return copieGraphe
     }
@@ -85,5 +84,15 @@ export class Graphe {
         this.noeuds.forEach(noeud => {
             noeud.visité = false
         });
+    }
+
+    // Get distance between two nodes
+    getDistance(node1Id, node2Id) {
+        for (const edge of this.aretes) {
+            if ((edge.nodeEx1 === node1Id && edge.nodeEx2 === node2Id) || (edge.nodeEx1 === node2Id && edge.nodeEx2 === node1Id)) {
+                return edge.poids;
+            }
+        }
+        return Infinity; // In case no edge exists between the nodes
     }
 }
