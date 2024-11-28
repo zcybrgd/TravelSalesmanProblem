@@ -1,1 +1,1 @@
-// pourla méthode exacte
+// pour la méthode exacte
