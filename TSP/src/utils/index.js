@@ -1,5 +1,5 @@
-import { Graphe } from './graphe.js';
-import { HeldKarp } from './Held-Karp.js';
+import { Graphe } from './ds/graphe.js';
+import { HeldKarp } from './algorithms/Held-Karp.js';
 
 const graphe = new Graphe();
 
