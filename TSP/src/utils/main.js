@@ -1,6 +1,5 @@
-import { Graphe } from './ds/graphe.js';
-import { HeldKarp } from './algorithms/Held-Karp.js';
-
+import { Graphe } from "./ds/graphe.js";
+import { heuristiqueTSP } from "./algorithms/heuristique.js";
 const graphe = new Graphe();
 
 // Ajouter les villes et les arêtes
@@ -15,10 +14,6 @@ graphe.ajouterArete(3, 0, 3, 12);
 graphe.ajouterArete(3, 1, 3, 11);
 graphe.ajouterArete(3, 3, 2, 17);
 
-// Résoudre le problème
-const heldKarp = new HeldKarp(graphe);
-const { minCost, path, executionTime } = heldKarp.solve();
 
-console.log(`Le coût minimum pour le TSP est : ${minCost}`);
-console.log(`Le cycle hamiltonien est : ${path.map(id => graphe.noeuds.get(id).label).join(' -> ')}`);
-console.log("Execution Time (ms):", executionTime);
+const result = heuristiqueTSP(graphe)
+console.log(result); 
