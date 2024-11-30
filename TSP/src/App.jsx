@@ -5,9 +5,9 @@ import VisNetwork from './component/VisNetwork';
 function App() {
   return (
     <div className="h-screen w-screen bg-slate-800 flex items-center justify-center ">
-      <div className="p-2 flex flex-col w-[75%] ">
+      <div className="p-2 flex flex-row w-[100%] ">
         <VisNetwork />
-        <div className="p-2 flex flex-row space-x-4 w-full">
+        <div className="p-2 flex flex-col space-y-4 w-[75%] ">
            <button className=" text-white bg-slate-700 p-2 text-center w-full rounded-lg shadow-md hover:bg-opacity-20 transition-colors">
                 Brute Force Solution
            </button>

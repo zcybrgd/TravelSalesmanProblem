@@ -83,7 +83,7 @@ const VisNetwork = () => {
   };
 
   return (
-    <div className="p-2">
+    <div className="p-2 w-full">
       <div className=" pb-2  flex flex-col">
         <div className="mb-2 flex flex-row space-x-[3%] h-11">
           {/* Input for new node label */}
