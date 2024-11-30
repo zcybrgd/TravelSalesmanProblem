@@ -95,4 +95,8 @@ export class Graphe {
         }
         return Infinity; // In case no edge exists between the nodes
     }
+    getNodeLabel(id) {
+        const node = this.noeuds.get(id);
+        return node ? node.label : null;
+    }
 }

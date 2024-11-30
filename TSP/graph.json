@@ -1,0 +1,36 @@
+{
+  "nodes": [
+    {
+      "id": 0,
+      "label": "A"
+    },
+    {
+      "id": 1,
+      "label": "B"
+    },
+    {
+      "id": 2,
+      "label": "C"
+    }
+  ],
+  "edges": [
+    {
+      "id": 0,
+      "nodeEx1": 0,
+      "nodeEx2": 1,
+      "poids": 5
+    },
+    {
+      "id": 1,
+      "nodeEx1": 0,
+      "nodeEx2": 2,
+      "poids": 15
+    },
+    {
+      "id": 3,
+      "nodeEx1": 1,
+      "nodeEx2": 2,
+      "poids": 20
+    }
+  ]
+}
