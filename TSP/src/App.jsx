@@ -20,7 +20,7 @@ function App() {
         <div className="h-screen w-screen bg-slate-800 flex items-center justify-center">
             <div className="p-2 flex flex-row w-[100%]">
                 <VisNetwork />
-                <div className="p-2 flex flex-col space-y-4 w-[75%]">
+                <div className="p-2 flex flex-col space-y-4 w-[55%]">
                     <button
                         onClick={handleBruteForceClick}
                         className="text-white bg-slate-700 p-2 text-center w-full rounded-lg shadow-md hover:bg-opacity-20 transition-colors"
@@ -40,7 +40,11 @@ function App() {
                             )}
                         </div>
                     )}
+                      <button className=" text-white bg-slate-500 p-2 text-center w-full rounded-lg shadow-md hover:bg-opacity-90 transition-colors">
+Heuristic Solution
+</button> 
                 </div>
+                
             </div>
         </div>
     );
@@ -49,6 +53,3 @@ function App() {
 export default App;
 
 
-//  <button className=" text-white bg-slate-500 p-2 text-center w-full rounded-lg shadow-md hover:bg-opacity-90 transition-colors">
-//Heuristic Solution
-//</button> 

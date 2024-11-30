@@ -60,6 +60,31 @@ const VisNetwork = () => {
     }
   };
 
+  const handleRemoveNode = () => {
+    if (newNodeLabel.trim()) {
+        // Find the node to remove based on its label
+        const nodeToRemove = nodes.find((node) => node.label === newNodeLabel);
+
+        if (nodeToRemove) {
+            // Remove the node from the nodes array
+            const updatedNodes = nodes.filter((node) => node.id !== nodeToRemove.id);
+
+            // Remove edges that involve the node to be removed
+            const updatedEdges = edges.filter(
+                (edge) => edge.nodeEx1 !== nodeToRemove.id && edge.nodeEx2 !== nodeToRemove.id
+            );
+
+            // Update the state with the new nodes and edges arrays
+            setNodes(updatedNodes);
+            setEdges(updatedEdges);
+            setNewNodeLabel(''); // Clear the input after removing the node
+        } else {
+            alert('Node not found');
+        }
+    }
+};
+
+
   const handleAddEdge = () => {
     const fromNode = nodes.find((node) => node.label === edgeFrom);
     const toNode = nodes.find((node) => node.label === edgeTo);
@@ -79,6 +104,30 @@ const VisNetwork = () => {
       alert('Please check node labels and edge weight.');
     }
   };
+  const handleRemoveEdge = () => {
+    // Find the nodes based on the labels of the edge to remove
+    const fromNode = nodes.find((node) => node.label === edgeFrom);
+    const toNode = nodes.find((node) => node.label === edgeTo);
+
+    // Ensure that both nodes exist and edge labels are valid
+    if (fromNode && toNode) {
+        // Remove the edge from the edges array
+        const updatedEdges = edges.filter(
+            (edge) =>
+                !(
+                    (edge.nodeEx1 === fromNode.id && edge.nodeEx2 === toNode.id) ||
+                    (edge.nodeEx1 === toNode.id && edge.nodeEx2 === fromNode.id)
+                )
+        );
+
+        // Update the state with the new edges array
+        setEdges(updatedEdges);
+        setEdgeFrom(''); // Clear the input for edgeFrom
+        setEdgeTo('');   // Clear the input for edgeTo
+    } else {
+        alert('Please check the node labels for the edge.');
+    }
+};
 
   const handleSendGraph = async () => {
     const graphData = {
@@ -100,45 +149,51 @@ const VisNetwork = () => {
 };
 
   return (
-    <div className="p-2 w-full">
+    <div className="p-1 w-full">
       <div className="pb-2 flex flex-col">
-        <div className="mb-2 flex flex-row space-x-[3%] h-11">
+        <div className="mb-2 flex flex-row space-x-[1%] h-11">
           <input
             type="text"
             value={newNodeLabel}
             onChange={(e) => setNewNodeLabel(e.target.value)}
-            className="border p-2 rounded-md bg-slate-50 text-slate-500 w-[22.7%]"
+            className="border p-2 rounded-md bg-slate-50 text-slate-500 w-[19.3%]"
             placeholder="Enter city label"
           />
-          <button onClick={handleAddNode} className="bg-slate-500 text-white text-center rounded-md w-[22.7%]">
+          <button onClick={handleAddNode} className="bg-slate-500 text-white text-center rounded-md w-[19.3%]">
             Add City
+          </button>
+          <button onClick={handleRemoveNode} className="bg-slate-700 text-white text-center rounded-md w-[19.3%]">
+            Remove City
           </button>
         </div>
 
-        <div className="mb-2 flex flex-row space-x-[3%] h-11">
+        <div className="mb-2 flex flex-row space-x-[1%] h-11">
           <input
             type="text"
             value={edgeFrom}
             onChange={(e) => setEdgeFrom(e.target.value)}
-            className="border p-2 rounded-md bg-slate-50 text-slate-500 w-[25%]"
+            className="border p-2 rounded-md bg-slate-50 text-slate-500 w-[20%]"
             placeholder="First City"
           />
           <input
             type="text"
             value={edgeTo}
             onChange={(e) => setEdgeTo(e.target.value)}
-            className="border p-2 rounded-md bg-slate-50 text-slate-500 w-[25%]"
+            className="border p-2 rounded-md bg-slate-50 text-slate-500 w-[20%]"
             placeholder="Second City"
           />
           <input
             type="number"
             value={edgeWeight}
             onChange={(e) => setEdgeWeight(e.target.value)}
-            className="border p-2 rounded-md bg-slate-50 text-slate-500 w-[25%]"
+            className="border p-2 rounded-md bg-slate-50 text-slate-500 w-[20%]"
             placeholder="Edge weight"
           />
-          <button onClick={handleAddEdge} className="bg-slate-500 text-white rounded-md justify-center text-center w-[25%]">
+          <button onClick={handleAddEdge} className="bg-slate-500 text-white rounded-md justify-center text-center w-[20%]">
             Add Edge
+          </button>
+          <button onClick={handleRemoveEdge} className="bg-slate-700 text-white rounded-md justify-center text-center w-[20%]">
+            Remove Edge
           </button>
         </div>
       </div>
