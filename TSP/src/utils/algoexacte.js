@@ -1,1 +1,0 @@
-// pour la méthode exacte
