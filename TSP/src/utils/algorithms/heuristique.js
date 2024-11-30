@@ -16,15 +16,11 @@ export const heuristiqueTSP =(graphe)=>{
  // on commence à sélectionner les aretes ordonnées
  for (const edge of sortedEdges){
     const {nodeEx1, nodeEx2, poids } = edge
-    if(degree.get(nodeEx1) < 2 && degree.get(nodeEx2) < 2 && !formeUnCycle(cycle,nodeEx1,nodeEx2)){
+    if(degree.get(nodeEx1) < 2 && degree.get(nodeEx2) < 2 && !formeUnCycle(cycle,nodeEx1,nodeEx2) || degree.get(nodeEx1) < 2 && degree.get(nodeEx2) < 2 && cycle.length + 1==graphe.noeuds.size ){
         cycle.push(edge)
         totalCost += poids
         degree.set(nodeEx1,degree.get(nodeEx1)+1)
         degree.set(nodeEx2,degree.get(nodeEx2)+1)
-
-        if(cycle.length==graphe.noeuds.size){
-            break
-        }
     }
  }
  if (cycle.length !== graphe.noeuds.size) {
@@ -32,7 +28,6 @@ export const heuristiqueTSP =(graphe)=>{
 }
  const orderedCycle = organiserChemin(cycle, graphe)
  const endTime = performance.now()
-
  const executionTime = endTime - startTime
 
  return {
@@ -49,28 +44,30 @@ export const heuristiqueTSP =(graphe)=>{
      * @param {string} node2 - ID du second sommet de l'arête.
      * @returns {boolean} True si un cycle invalide est formé, sinon False.
      */
-const formeUnCycle = (cycle,node1,node2) => {
+ const formeUnCycle = (cycle, node1, node2) => {
     const visited = new Set();
-    const stack = [node1];
-
+    const stack = [node1];  // on fait un DFS
     while (stack.length > 0) {
         const current = stack.pop();
+        // If we reach node2, it means node1 and node2 are already connected
+        if (current === node2) {
+            return true;  // Adding the edge will form a cycle
+        }
         if (visited.has(current)) {
-            continue;
+            continue;  // Skip already visited nodes
         }
         visited.add(current);
-
         for (const edge of cycle) {
-            if (edge.nodeEx1 === current && edge.nodeEx2 !== node2) {
+            if (edge.nodeEx1 === current && !visited.has(edge.nodeEx2)) {
                 stack.push(edge.nodeEx2);
-            } else if (edge.nodeEx2 === current && edge.nodeEx1 !== node2) {
+            } else if (edge.nodeEx2 === current && !visited.has(edge.nodeEx1)) {
                 stack.push(edge.nodeEx1);
             }
         }
     }
+    return false;  // If we exit the loop, it means node2 isn't reachable from node1
+};
 
-    return visited.has(node2);
-}
 
 
 const organiserChemin = (cycle, graphe) => {

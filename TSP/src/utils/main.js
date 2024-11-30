@@ -1,7 +1,8 @@
 import { Graphe } from "./ds/graphe.js";
 import { heuristiqueTSP } from "./algorithms/heuristique.js";
 
-const graphe = new Graphe(); 
+const graphe = new Graphe();
+
 
 graphe.ajouterNoeud(0, "City 1");
 graphe.ajouterNoeud(1, "City 2");
@@ -25,6 +26,9 @@ graphe.ajouterArete(12, 2, 5, 21); // City 3 to City 6
 graphe.ajouterArete(13, 3, 4, 22); // City 4 to City 5
 graphe.ajouterArete(14, 3, 5, 23); // City 4 to City 6
 graphe.ajouterArete(15, 4, 5, 24); // City 5 to City 6
+
+
+
 
 
 const result = heuristiqueTSP(graphe)
