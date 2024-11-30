@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Network } from 'vis-network/peer'; // Importing vis-network
+import { Network } from 'vis-network/peer';
+import axios from 'axios';
 
 const VisNetwork = () => {
   const containerRef = useRef(null);
@@ -29,7 +30,7 @@ const VisNetwork = () => {
           to: edge.nodeEx2,
           label: edge.poids.toString(),
           arrows: { to: false, from: false },
-                    font: { align: 'top' },
+          font: { align: 'top' },
         })),
       };
 
@@ -47,12 +48,10 @@ const VisNetwork = () => {
         },
       };
 
-      // Initializing the network with the graph data and options
       new Network(containerRef.current, networkData, options);
     }
   }, [nodes, edges]);
 
-  // Handle adding node
   const handleAddNode = () => {
     if (newNodeLabel.trim()) {
       const newNode = { id: nodes.length, label: newNodeLabel };
@@ -61,7 +60,6 @@ const VisNetwork = () => {
     }
   };
 
-  // Handle adding edge by label
   const handleAddEdge = () => {
     const fromNode = nodes.find((node) => node.label === edgeFrom);
     const toNode = nodes.find((node) => node.label === edgeTo);
@@ -82,11 +80,29 @@ const VisNetwork = () => {
     }
   };
 
+  const handleSendGraph = async () => {
+    const graphData = {
+        nodes,
+        edges,
+    };
+
+    try {
+        const response = await axios.post('http://localhost:5000/save-graph', graphData);
+        console.log('Graph data sent to server:', graphData); // Affiche le graphe envoyé
+        console.log('Server response:', response.data.message); // Affiche le message du serveur
+
+        // Récupération du graphe sauvegardé pour le vérifier dans la console
+        const savedGraph = await axios.get('http://localhost:5000/get-graph');
+        console.log('Graph retrieved from server:', savedGraph.data); // Affiche le graphe récupéré
+    } catch (error) {
+        console.error('Error sending graph data:', error); // Log l'erreur dans la console
+    }
+};
+
   return (
     <div className="p-2 w-full">
-      <div className=" pb-2  flex flex-col">
+      <div className="pb-2 flex flex-col">
         <div className="mb-2 flex flex-row space-x-[3%] h-11">
-          {/* Input for new node label */}
           <input
             type="text"
             value={newNodeLabel}
@@ -94,18 +110,17 @@ const VisNetwork = () => {
             className="border p-2 rounded-md bg-slate-50 text-slate-500 w-[22.7%]"
             placeholder="Enter city label"
           />
-          <button onClick={handleAddNode} className="bg-slate-500 text-white text-center rounded-md  w-[22.7%]">
+          <button onClick={handleAddNode} className="bg-slate-500 text-white text-center rounded-md w-[22.7%]">
             Add City
           </button>
         </div>
 
-        <div className="mb-2 flex flex-row space-x-[3%]  h-11 ">
-          {/* Inputs for adding edge */}
+        <div className="mb-2 flex flex-row space-x-[3%] h-11">
           <input
             type="text"
             value={edgeFrom}
             onChange={(e) => setEdgeFrom(e.target.value)}
-            className="border p-2 rounded-md bg-slate-50 text-slate-500 w-[25%] "
+            className="border p-2 rounded-md bg-slate-50 text-slate-500 w-[25%]"
             placeholder="First City"
           />
           <input
@@ -128,12 +143,13 @@ const VisNetwork = () => {
         </div>
       </div>
 
-      {/* Graph container */}
       <div
         ref={containerRef}
         className="w-full h-96 border bg-slate-50 border-gray-300 mb-4 rounded-md"
-        
       ></div>
+       <button onClick={handleSendGraph} className="bg-slate-500 text-white p-2 rounded-md w-full h-11">
+          Send Graph to Server
+        </button>
     </div>
   );
 };
