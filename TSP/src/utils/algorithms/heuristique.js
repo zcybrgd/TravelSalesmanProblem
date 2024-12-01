@@ -31,7 +31,7 @@ export const heuristiqueTSP =(graphe)=>{
  const executionTime = endTime - startTime
 
  return {
-    cycle: `Le cycle hamiltonien est : ${orderedCycle.join(" -> ")}`,
+    cycle: `${orderedCycle.join(" -> ")}`,
     coût: totalCost,
     execTime : executionTime
 };

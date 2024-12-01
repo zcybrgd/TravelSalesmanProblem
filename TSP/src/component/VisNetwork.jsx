@@ -62,22 +62,16 @@ const VisNetwork = () => {
 
   const handleRemoveNode = () => {
     if (newNodeLabel.trim()) {
-        // Find the node to remove based on its label
         const nodeToRemove = nodes.find((node) => node.label === newNodeLabel);
 
         if (nodeToRemove) {
-            // Remove the node from the nodes array
             const updatedNodes = nodes.filter((node) => node.id !== nodeToRemove.id);
-
-            // Remove edges that involve the node to be removed
             const updatedEdges = edges.filter(
                 (edge) => edge.nodeEx1 !== nodeToRemove.id && edge.nodeEx2 !== nodeToRemove.id
             );
-
-            // Update the state with the new nodes and edges arrays
             setNodes(updatedNodes);
             setEdges(updatedEdges);
-            setNewNodeLabel(''); // Clear the input after removing the node
+            setNewNodeLabel(''); 
         } else {
             alert('Node not found');
         }
@@ -105,13 +99,10 @@ const VisNetwork = () => {
     }
   };
   const handleRemoveEdge = () => {
-    // Find the nodes based on the labels of the edge to remove
     const fromNode = nodes.find((node) => node.label === edgeFrom);
     const toNode = nodes.find((node) => node.label === edgeTo);
 
-    // Ensure that both nodes exist and edge labels are valid
     if (fromNode && toNode) {
-        // Remove the edge from the edges array
         const updatedEdges = edges.filter(
             (edge) =>
                 !(
@@ -119,11 +110,9 @@ const VisNetwork = () => {
                     (edge.nodeEx1 === toNode.id && edge.nodeEx2 === fromNode.id)
                 )
         );
-
-        // Update the state with the new edges array
         setEdges(updatedEdges);
-        setEdgeFrom(''); // Clear the input for edgeFrom
-        setEdgeTo('');   // Clear the input for edgeTo
+        setEdgeFrom(''); 
+        setEdgeTo('');  
     } else {
         alert('Please check the node labels for the edge.');
     }
@@ -137,14 +126,12 @@ const VisNetwork = () => {
 
     try {
         const response = await axios.post('http://localhost:5000/save-graph', graphData);
-        console.log('Graph data sent to server:', graphData); // Affiche le graphe envoyé
-        console.log('Server response:', response.data.message); // Affiche le message du serveur
-
-        // Récupération du graphe sauvegardé pour le vérifier dans la console
+        console.log('Graph data sent to server:', graphData); 
+        console.log('Server response:', response.data.message); 
         const savedGraph = await axios.get('http://localhost:5000/get-graph');
-        console.log('Graph retrieved from server:', savedGraph.data); // Affiche le graphe récupéré
+        console.log('Graph retrieved from server:', savedGraph.data); 
     } catch (error) {
-        console.error('Error sending graph data:', error); // Log l'erreur dans la console
+        console.error('Error sending graph data:', error);
     }
 };
 

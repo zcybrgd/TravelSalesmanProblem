@@ -2,15 +2,19 @@
   "nodes": [
     {
       "id": 0,
-      "label": "A"
+      "label": "0"
     },
     {
       "id": 1,
-      "label": "B"
+      "label": "1"
     },
     {
       "id": 2,
-      "label": "C"
+      "label": "2"
+    },
+    {
+      "id": 3,
+      "label": "3"
     }
   ],
   "edges": [
@@ -18,19 +22,37 @@
       "id": 0,
       "nodeEx1": 0,
       "nodeEx2": 1,
-      "poids": 5
+      "poids": 20
     },
     {
       "id": 1,
       "nodeEx1": 0,
       "nodeEx2": 2,
-      "poids": 15
+      "poids": 10
+    },
+    {
+      "id": 2,
+      "nodeEx1": 0,
+      "nodeEx2": 3,
+      "poids": 12
     },
     {
       "id": 3,
       "nodeEx1": 1,
       "nodeEx2": 2,
-      "poids": 20
+      "poids": 15
+    },
+    {
+      "id": 4,
+      "nodeEx1": 1,
+      "nodeEx2": 3,
+      "poids": 11
+    },
+    {
+      "id": 5,
+      "nodeEx1": 2,
+      "nodeEx2": 3,
+      "poids": 12
     }
   ]
 }

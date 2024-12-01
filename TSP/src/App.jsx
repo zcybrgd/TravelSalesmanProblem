@@ -5,7 +5,7 @@ import axios from 'axios';
 
 function App() {
     const [heldKarpResult, setHeldKarpResult] = useState(null);
-
+    const [heuristicResult, setHeuristicResult] = useState(null)
     const handleBruteForceClick = async () => {
         try {
             const response = await axios.get('http://localhost:5000/held-karp');
@@ -15,6 +15,16 @@ function App() {
             setHeldKarpResult({ error: 'Failed to compute Held-Karp solution.' });
         }
     };
+
+    const handleHeuristicSolver = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/heuristic')
+            setHeuristicResult(response.data)
+        } catch (e) {
+            console.error('Error',e)
+            setHeuristicResult({error:'Failed to solve the heuristic'})
+        }
+    }
 
     return (
         <div className="h-screen w-screen bg-slate-800 flex items-center justify-center">
@@ -40,9 +50,23 @@ function App() {
                             )}
                         </div>
                     )}
-                      <button className=" text-white bg-slate-500 p-2 text-center w-full rounded-lg shadow-md hover:bg-opacity-90 transition-colors">
+                      <button onClick={handleHeuristicSolver} className=" text-white bg-slate-500 p-2 text-center w-full rounded-lg shadow-md hover:bg-opacity-90 transition-colors">
 Heuristic Solution
 </button> 
+{heuristicResult && (
+ <div className="text-white bg-slate-500 p-4 rounded-lg shadow-md mt-4">
+{heuristicResult.error ? (
+                                <p>{heuristicResult.error}</p>
+                            ) : (
+                                <>
+                                    <p><strong>Minimum Cost:</strong> {heuristicResult.coût}</p>
+                                    <p><strong>Cycle:</strong> {heuristicResult.cycle}</p>
+                                    <p><strong>Execution Time:</strong> {heuristicResult.execTime.toFixed(2)} ms</p>
+                                </>
+                            )}
+ </div>
+)
+}
                 </div>
                 
             </div>
